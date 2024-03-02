@@ -8,6 +8,8 @@ const authRouter = require("./routes/authRouter");
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const imageRouter = require("./routes/imageRouter");
+const threadRouter = require("./routes/threadRouter");
+const productRouter = require("./routes/productRouter");
 
 const app = express();
 
@@ -19,7 +21,9 @@ app.use(express.static("images"));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
+app.use("/threads", threadRouter);
 app.use("/images", imageRouter);
+app.use("/products", productRouter);
 
 app.listen(4000);
 console.log("listening!");

@@ -4,10 +4,14 @@ const ProductSchema = new mongoose.Schema({
   name: { type: String, required: true },
   seller: { type: mongoose.Types.ObjectId, ref: "User" },
   description: { type: String, required: true },
-  price: { type: Number, required: true},
-  imageURL: { type: String }
+  price: { type: Number, required: true },
+  imageURL: { type: String },
 });
 
 const Product = mongoose.model("Product", ProductSchema);
+
+Product.find().then((products) => {
+  console.log(products);
+});
 
 module.exports = Product;

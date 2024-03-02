@@ -17,7 +17,9 @@ async function ResourcesPage() {
 
 function PostCard({ post }) {
   const image = post.content.find((c) => c.type === "image");
-  console.log(image);
+  console.log(
+    "http://localhost:4000/" + image?.attachment.replaceAll(" ", "%20")
+  );
   return (
     <Link href={`/resources/${post._id}`}>
       <img
