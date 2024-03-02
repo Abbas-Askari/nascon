@@ -19,6 +19,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/custom/passwordInput";
 import Link from "next/link";
+import { useAppDispatch } from "@/lib/hooks";
+import { set } from "react-hook-form";
+import { setErrors } from "@/lib/auth/authSlice";
 
 export const AuthForm = ({
   header,
@@ -30,6 +33,8 @@ export const AuthForm = ({
   linkText,
   fields,
 }) => {
+  const dispatch = useAppDispatch();
+
   const formFields = fields.map((fieldObject) => (
     <FormField
       control={form.control}
@@ -71,7 +76,16 @@ export const AuthForm = ({
             className="space-y-4"
           >
             {formFields}
-            <Button className="w-full" type="submit">
+            <Button
+              className="w-full"
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log("clicked");
+                dispatch(setErrors([]));
+                form.handleSubmit(onSubmit)();
+              }}
+            >
               {buttonText}
             </Button>
           </form>
