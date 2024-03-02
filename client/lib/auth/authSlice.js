@@ -1,48 +1,47 @@
-"use client"
+"use client";
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const loginAsync = createAsyncThunk(
   "auth/login",
-  async (data, {dispatch, getState}) => {
+  async (data, { dispatch, getState }) => {
     const res = await fetch(process.env.NEXT_PUBLIC_BACKEND + "auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({user: {...data}})
-    })
+      body: JSON.stringify({ user: { ...data } }),
+    });
 
-    const json = await res.json()
-    if (json.errors) return dispatch(setErrors(json.errors))
+    const json = await res.json();
+    if (json.errors) return dispatch(setErrors(json.errors));
 
-    dispatch(setErrors([]))
-    dispatch(setUser(json.user))
-    dispatch(setToken(json.token)) 
+    dispatch(setErrors([]));
+    dispatch(setUser(json.user));
+    dispatch(setToken(json.token));
   }
-)
-
+);
 
 export const signupAsync = createAsyncThunk(
   "auth/signup",
-  async (data, {dispatch, getState}) => {
+  async (data, { dispatch, getState }) => {
     const res = await fetch(process.env.NEXT_PUBLIC_BACKEND + "auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({user: {...data}})
-    })
+      body: JSON.stringify({ user: { ...data } }),
+    });
 
-    const json = await res.json()
-    console.log(json)
-    if (json.errors) return dispatch(setErrors(json.errors))
+    const json = await res.json();
+    console.log(json);
+    if (json.errors) return dispatch(setErrors(json.errors));
 
-    dispatch(setErrors([]))
-    dispatch(setUser(json.user))
-    dispatch(setToken(json.token)) 
+    dispatch(setErrors([]));
+    dispatch(setUser(json.user));
+    dispatch(setToken(json.token));
   }
-)
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -59,7 +58,7 @@ export const authSlice = createSlice({
       state.user = action.payload;
     },
     setToken: (state, action) => {
-      state.token = action.payload
+      state.token = action.payload;
     },
     logout: (state, action) => {
       state.user = null;
@@ -70,4 +69,4 @@ export const authSlice = createSlice({
 
 export const { setErrors, setUser, setToken, logout } = authSlice.actions;
 
-export default authSlice.reducer
+export default authSlice.reducer;

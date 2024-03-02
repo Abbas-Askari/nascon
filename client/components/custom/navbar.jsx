@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { GitHubLogoIcon, InstagramLogoIcon } from "@radix-ui/react-icons";
 import { ThemePicker } from "./themePicker";
@@ -7,10 +7,10 @@ import { useAppSelector } from "@/lib/hooks";
 import { UserNav } from "./userNav";
 
 export const Navbar = () => {
-  const { user } = useAppSelector(state => state.auth)
+  const { user } = useAppSelector((state) => state.auth);
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="stickey top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 flex">
           <a className="mr-6 flex items-center space-x-2" href="/">
@@ -79,10 +79,11 @@ export const Navbar = () => {
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
-          {user && 
-          <>
-            <SearchBar />
-          </>}
+          {user && (
+            <>
+              <SearchBar />
+            </>
+          )}
           <nav className="flex items-center">
             <a
               target="_blank"
@@ -90,7 +91,7 @@ export const Navbar = () => {
               href="https://github.com/TahaShah141"
             >
               <div className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 py-2 w-9 px-0">
-                <GitHubLogoIcon className="h-4 w-4"/>
+                <GitHubLogoIcon className="h-4 w-4" />
                 <span className="sr-only">GitHub</span>
               </div>
             </a>

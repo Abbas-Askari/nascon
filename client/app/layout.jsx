@@ -13,24 +13,23 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
   return (
     <html lang="en">
       <body className={inter.className}>
         <StoreProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem
-              disableTransitionOnChange
-              >
-              <Navbar />
-              <Authenticator>
-                <main className=" flex flex-col justify-center items-center h-screen">
-                  {children}
-                </main>
-              </Authenticator>
-            </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            <Authenticator>
+              <main className=" flex flex-col justify-center items-center h-screen">
+                {children}
+              </main>
+            </Authenticator>
+          </ThemeProvider>
         </StoreProvider>
       </body>
     </html>

@@ -6,16 +6,20 @@ require("dotenv").config();
 
 const authRouter = require("./routes/authRouter");
 const userRouter = require("./routes/userRouter");
+const postRouter = require("./routes/postRouter");
+const imageRouter = require("./routes/imageRouter");
 
-const app = express();  
+const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.options("*", cors());
 
+app.use(express.static("images"));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
-
+app.use("/posts", postRouter);
+app.use("/images", imageRouter);
 
 app.listen(4000);
 console.log("listening!");

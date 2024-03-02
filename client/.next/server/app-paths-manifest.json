@@ -1,5 +1,8 @@
 {
+  "/not-found": "app/not-found.js",
+  "/signup/page": "app/signup/page.js",
   "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/login/page": "app/login/page.js"
+  "/resources/new/page": "app/resources/new/page.js",
+  "/resources/page": "app/resources/page.js",
+  "/resources/[postId]/page": "app/resources/[postId]/page.js"
 }

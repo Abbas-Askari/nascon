@@ -1,21 +1,19 @@
-"use client"
+"use client";
 
-import { useAppSelector } from "@/lib/hooks"
-import { usePathname, useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useAppSelector } from "@/lib/hooks";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export const Authenticator = ({ children }) => {
-  const { user } = useAppSelector(state => state.auth)
-  const router = useRouter()
-  const path = usePathname()
+  const { user } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+  const path = usePathname();
 
   useEffect(() => {
     if (!user && path !== "/login" && path !== "/signup") {
-      router.push("/login")
+      // router.push("/login");
     }
-  }, [user, path])
+  }, [user, path]);
 
-  return (
-    <>{children}</>
-  )
-}
+  return <>{children}</>;
+};
