@@ -12,18 +12,18 @@ export const Authenticator = ({ children }) => {
   const path = usePathname();
 
   useEffect(() => {
-    if (!user && path !== "/login" && path !== "/signup") {
-      router.push("/login");
-    }
-    // if (!user)
-    //   dispatch(
-    //     setUser({
-    //       name: "FakeShah141",
-    //       password: "FakeBoi@123",
-    //       email: "fakeshah141@test.com",
-    //       avatarLink: "#",
-    //     })
-    //   );
+    // if (!user && path !== "/login" && path !== "/signup") {
+    //   router.push("/login");
+    // }
+    if (!user)
+      dispatch(
+        setUser({
+          name: "FakeShah141",
+          password: "FakeBoi@123",
+          email: "fakeshah141@test.com",
+          avatarLink: "#",
+        })
+      );
   }, [user, path]);
 
   return <>{children}</>;

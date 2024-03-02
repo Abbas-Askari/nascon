@@ -8,32 +8,11 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { revalidate } from "@/lib/actions";
+import { uploadImages } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
-async function uploadImages(images) {
-  let imageUrls = [];
-  for (let image of images) {
-    if (image.type === "text") {
-      imageUrls.push(image.attachment);
-      continue;
-    }
-    console.log(image);
-    const form = new FormData();
-    form.append("images", image.attachment, image.attachment.name);
-    const res = await fetch("http://localhost:4000/images", {
-      method: "POST",
-      headers: {
-        // "Content-Type": "multipart/form-data",
-      },
-      body: form,
-    });
-    const { urls } = await res.json();
-    imageUrls = [...imageUrls, ...urls];
-  }
-  return imageUrls;
-}
 
 function NewResourcePage() {
   const [title, setTitle] = useState("");
