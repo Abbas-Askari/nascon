@@ -83,10 +83,14 @@ export const AuthForm = ({
                 e.preventDefault();
                 console.log("clicked");
                 dispatch(setErrors([]));
+                // setTimeout(() => {
+                // console.log("timeout");
+                // dispatch(setErrors([]));
                 form.handleSubmit(onSubmit)();
+                // }, 500);
               }}
             >
-              {buttonText}
+              {"asdasd"}
             </Button>
           </form>
         </Form>

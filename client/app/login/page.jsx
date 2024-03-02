@@ -51,9 +51,7 @@ const Login = () => {
 
   const onSubmit = async (formData) => {
     console.log(formData);
-    console.log("sub");
     dispatch(loginAsync(formData));
-    dispatch(setErrors("hello"));
   };
 
   const fields = [
