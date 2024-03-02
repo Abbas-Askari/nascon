@@ -32,17 +32,25 @@ const signupSchema = z
   );
 
 const Signup = () => {
-
-  const dispatch = useAppDispatch()
-  const { user } = useAppSelector(state => state.auth)
-
-  const router = useRouter()
+  const dispatch = useAppDispatch();
+  const { user, errors } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+  console.log({ errors, user });
   useEffect(() => {
-    if (user) router.push("/")
-  }, [user])
+    if (user) router.push("/");
+  }, [user]);
 
   const form = useForm({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(signupSchema).refine(
+      (data) => {
+        return errors.length === 0;
+      },
+      {
+        message: errors[0]?.message,
+        path: [errors[0]?.path],
+      }
+    ),
+    // add errors to form state
     defaultValues: {
       name: "",
       email: "",
@@ -52,8 +60,8 @@ const Signup = () => {
   });
 
   const onSubmit = async (formData) => {
-    console.log(formData)
-    dispatch(signupAsync(formData))
+    console.log(formData);
+    dispatch(signupAsync(formData));
   };
 
   const fields = [
@@ -61,38 +69,38 @@ const Signup = () => {
       name: "name",
       label: "Username",
       type: "text",
-      placeholder: "Type your username here" 
+      placeholder: "Type your username here",
     },
     {
       name: "email",
       label: "Email",
       type: "text",
-      placeholder: "Type your email here" 
+      placeholder: "Type your email here",
     },
     {
       name: "password",
       label: "Password",
       type: "password",
-      placeholder: "Enter a Password" 
+      placeholder: "Enter a Password",
     },
     {
       name: "passwordConfirm",
       label: "Confirm Password",
       type: "password",
-      placeholder: "Confirm Password" 
+      placeholder: "Confirm Password",
     },
-  ]
+  ];
 
   return (
     <AuthForm
-    fields={fields}
-    form={form}
-    onSubmit={onSubmit}
-    header={"Create A New Account"}
-    buttonText={"Sign Up"}
-    footerText={"Already Have an Account?"} 
-    linkText={"Sign In."}
-    linkPath={"/login"}
+      fields={fields}
+      form={form}
+      onSubmit={onSubmit}
+      header={"Create A New Account"}
+      buttonText={"Sign Up"}
+      footerText={"Already Have an Account?"}
+      linkText={"Sign In."}
+      linkPath={"/login"}
     />
   );
 };

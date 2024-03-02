@@ -5,20 +5,36 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const loginAsync = createAsyncThunk(
   "auth/login",
   async (data, { dispatch, getState }) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_BACKEND + "auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user: { ...data } }),
-    });
+    try {
+      // console.log("dispatching!");
+      // dispatch(setErrors("Invalid email or password"));
+      // const state = getState().auth;
+      // console.log(state);
+      // console.log("dispatched!");
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND + "/" + "auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user: { ...data } }),
+        }
+      );
+      const json = await res.json();
+      if (json.errors) {
+        console.log(json);
 
-    const json = await res.json();
-    if (json.errors) return dispatch(setErrors(json.errors));
+        dispatch(setErrors(json.errors));
+        return;
+      }
 
-    dispatch(setErrors([]));
-    dispatch(setUser(json.user));
-    dispatch(setToken(json.token));
+      dispatch(setErrors([]));
+      dispatch(setUser(json.user));
+      dispatch(setToken(json.token));
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 );
 

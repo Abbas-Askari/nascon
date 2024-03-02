@@ -1,8 +1,0 @@
-{
-  "/not-found": "app/not-found.js",
-  "/signup/page": "app/signup/page.js",
-  "/page": "app/page.js",
-  "/resources/new/page": "app/resources/new/page.js",
-  "/resources/page": "app/resources/page.js",
-  "/resources/[postId]/page": "app/resources/[postId]/page.js"
-}
