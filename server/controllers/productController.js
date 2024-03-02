@@ -1,12 +1,12 @@
 const Product = require("../models/productModel");
 
-async function postProduct(req, res) {
-  const { product } = req.body
+async function createProduct(req, res) {
+  const { product } = req.body;
 
-  const newProduct = new Product(product)
-  await newProduct.save()
-
-  return res.json({product: newProduct})
+  const newProduct = new Product(product);
+  await newProduct.save();
+  console.log(newProduct);
+  return res.json({ product: newProduct });
 }
 
 async function getAllProducts(req, res) {
@@ -15,15 +15,15 @@ async function getAllProducts(req, res) {
 }
 
 async function getProduct(req, res) {
-  const { productID } = req.params
+  const { productId } = req.params;
 
-  const product = await Product.findById(productID).exec()
+  const product = await Product.findById(productId).exec();
 
   if (!product) {
-    return res.json({error: "No Such product Found"})
+    return res.json({ error: "No Such product Found" });
   }
 
-  return res.json({product})
+  return res.json({ product });
 }
 
-module.exports = { getAllProducts, getProduct };
+module.exports = { getAllProducts, getProduct, createProduct };
