@@ -16,15 +16,15 @@ async function ResourcesPage() {
 }
 
 function PostCard({ post }) {
-  const image = post.content.find((c) => c.type === "image");
-  console.log(image);
+  // const image = post.content.find((c) => c.type === "image");
+  // console.log(image);
   return (
     <Link href={`/resources/${post._id}`}>
-      <img
+      {/* <img
         className=" w-96"
         src={"http://localhost:4000/" + image?.attachment}
         alt=""
-      />
+      /> */}
       <h2>{post.title}</h2>
     </Link>
   );

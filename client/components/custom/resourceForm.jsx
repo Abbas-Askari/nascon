@@ -1,11 +1,3 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
 import { revalidate } from "@/lib/actions";
@@ -13,140 +5,143 @@ import { uploadImages } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { z } from "zod"
-import { useFieldArray, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-
-const contentSchema = z.object({
-  type: z.string(),
-  attachment: z.any(),
-});
-
-const resourceSchema = z.object({
-  title: z.string(),
-  content: z.array(contentSchema).refine((value) => value.length > 0, {
-    message: 'Content array must not be empty',
-  }),
-});
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useAppSelector } from "@/lib/hooks";
+import { Label } from "../ui/label";
 
 export const ResourceForm = () => {
   const router = useRouter();
+  const { user } = useAppSelector((state) => state.auth);
 
-  const form = useForm({
-    resolver: zodResolver(resourceSchema),
-    defaultValues: {
-      title: "",
-      content: [{type: "", attachment: ""}],
-    },
-  });
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState([]);
 
-  const { append, remove } = useFieldArray({
-    control: form.control,
-    name: "content"
-  })
+  const onSubmit = (e) => {
+    e.preventDefault();
 
-  const onSubmit = (values) => {
-    console.log(values)
-    // e.preventDefault();
+    uploadImages(contents).then((urls) => {
+      fetch("http://localhost:4000/posts/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender: user._id,
+          title,
+          contents: contents.map((c, i) => ({
+            type: c.type,
+            attachment: urls[i],
+          })),
+        }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            console.log("Resource Created");
+          }
+          return res.json();
+        })
+        .then((json) => {
+          console.log(json);
+          revalidate("/resources").then(() => {
+            router.push(`/resources/${json.post._id}`);
+          });
+        });
+      console.log(urls);
+    });
+  };
 
-    // uploadImages(contents).then((urls) => {
-    //   fetch("http://localhost:4000/posts/", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       title,
-    //       contents: contents.map((c, i) => ({
-    //         type: c.type,
-    //         attachment: urls[i],
-    //       })),
-    //     }),
-    //   })
-    //     .then((res) => {
-    //       if (res.ok) {
-    //         console.log("Resource Created");
-    //       }
-    //       return res.json();
-    //     })
-    //     .then((json) => {
-    //       console.log(json);
-    //       revalidate("/resources").then(() => {
-    //         router.push(`/resources/${json.post._id}`);
-    //       });
-    //     });
-    //   console.log(urls);
-    };
+  const changeContentType = (index, type) => {
+    const newContents = JSON.parse(JSON.stringify(contents));
+    newContents[index].type = type;
 
-  console.log(form.getValues())
+    setContents(newContents);
+  };
+
+  const changeContentAttachment = (index, attachment) => {
+    const newContents = JSON.parse(JSON.stringify(contents));
+    newContents[index].type = type;
+
+    setContents(newContents);
+  };
 
   return (
-    <Form {...form}>
-
-      <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-2">
-        <FormField
-        className=""
-        control={form.control}
-        name={"title"}
-          render={({ field }) => (
-            <FormItem className="flex-1">
-              <FormLabel>{"Title"}</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="Resource Title here" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+    <div className="w-1/3">
+      <form onSubmit={onSubmit} action="" className="flex flex-col space-y-2">
+        <Label>{"Title"}</Label>
+        <Input
+          type="text"
+          placeholder="Resource Title here"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
         />
-        {form.getValues().content.map(
-          (obj, i) =>
+        {contents.map((content, index) => {
+          return (
             <>
-            <FormField
-            className=""
-            control={form.control}
-            name={`content[${i}].type`}
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>{"Type"}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={{...field.value}}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a file type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="text">Text</SelectItem>
-                      <SelectItem value="image">Image</SelectItem>
-                      <SelectItem value="video">Video</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
+              <Label>{"Type"}</Label>
+              <Select
+                onValueChange={(value) => changeContentType(index, value)}
+                defaultValue={"text"}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a file type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="text">Text</SelectItem>
+                  <SelectItem value="image">Image</SelectItem>
+                  <SelectItem value="video">Video</SelectItem>
+                </SelectContent>
+              </Select>
+              <Label>{"Attachment"}</Label>
+              {contents[index].type === "text" ? (
+                <Input
+                  type="text"
+                  onChange={(e) =>
+                    changeContentAttachment(index, e.target.value)
+                  }
+                  value={contents[index].attachment}
+                  placeholder="Content Here"
+                />
+              ) : (
+                <Input
+                  type="file"
+                  onChange={(e) =>
+                    changeContentAttachment(index, e.target.value)
+                  }
+                  value={contents[index].attachment}
+                />
               )}
-            />
-            <FormField
-            className=""
-            control={form.control}
-            name={`content[${i}].attachment`}
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>{"Attachment"}</FormLabel>
-                  <FormControl>
-                    {obj.type === "text" ?
-                    <Input type="text" placeholder="Content Here" {...field} />:
-                    <Input type="file" {...field} />}
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-              />
             </>
-        )}
-        <Button variant="outline" onClick={() => {append({type: "", attachment: ""})}}>Add Content Section</Button>
-        <Button type="submit" className="">Add Post</Button>
+          );
+        })}
+
+        <Button
+          onClick={() => {
+            setContents((prev) => [
+              ...prev,
+              {
+                id: new Date().getTime(),
+                type: "text",
+                attachment: "",
+              },
+            ]);
+          }}
+          type="button"
+          variant="outline"
+        >
+          Add Content
+        </Button>
+
+        <Button type="submit">Create Resource</Button>
       </form>
-    </Form>
-  )
-}
+    </div>
+  );
+};

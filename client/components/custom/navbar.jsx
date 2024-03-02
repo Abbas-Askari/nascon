@@ -44,7 +44,7 @@ export const Navbar = () => {
                 strokeWidth="16"
               ></line>
             </svg>
-            <span className="hidden font-bold sm:inline-block">Taha Shah</span>
+            <Link href={"/"} className="hidden font-bold sm:inline-block">Taha Shah</Link>
           </a>
           <nav className="flex items-center gap-6 text-sm">
             <Link href="/market"
