@@ -5,6 +5,7 @@ import { ThemePicker } from "./themePicker";
 import { SearchBar } from "./searchbar";
 import { useAppSelector } from "@/lib/hooks";
 import { UserNav } from "./userNav";
+import Link from "next/link";
 
 export const Navbar = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -46,6 +47,12 @@ export const Navbar = () => {
             <span className="hidden font-bold sm:inline-block">Taha Shah</span>
           </a>
           <nav className="flex items-center gap-6 text-sm">
+            <Link href="/market"
+              className="transition-colors hover:text-foreground text-foreground/60"
+              >Market</Link>
+            <Link href="/resources"
+              className="transition-colors hover:text-foreground text-foreground/60"
+              >Resources</Link>
             {/* <a
               className="transition-colors hover:text-foreground/80 text-foreground/60"
               href="/docs"
