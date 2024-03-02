@@ -6,13 +6,8 @@ export const loginAsync = createAsyncThunk(
   "auth/login",
   async (data, { dispatch, getState }) => {
     try {
-      // console.log("dispatching!");
-      // dispatch(setErrors("Invalid email or password"));
-      // const state = getState().auth;
-      // console.log(state);
-      // console.log("dispatched!");
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND + "/" + "auth/login",
+        process.env.NEXT_PUBLIC_BACKEND + "auth/login",
         {
           method: "POST",
           headers: {

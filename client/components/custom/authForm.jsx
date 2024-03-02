@@ -90,7 +90,7 @@ export const AuthForm = ({
                 // }, 500);
               }}
             >
-              {"asdasd"}
+              {buttonText}
             </Button>
           </form>
         </Form>

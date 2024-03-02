@@ -1,5 +1,6 @@
 "use client";
 
+import { ResourceForm } from "@/components/custom/resourceForm";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -9,7 +10,6 @@ import {
 } from "@/components/ui/form";
 import { revalidate } from "@/lib/actions";
 import { uploadImages } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -59,58 +59,60 @@ function NewResourcePage() {
   }
 
   return (
-    <div className="flex">
-      <form onSubmit={submit} action="" className="flex flex-col gap-4">
-        <div className="">
-          <label htmlFor="">Title</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            type="text"
-          />
-        </div>
-        {contents.map((content) => {
-          return (
-            <Content
-              key={content.id}
-              {...content}
-              setAttachment={(a) => {
-                setContents((prev) => {
-                  return prev.map((c) =>
-                    c.id === content.id ? { ...c, attachment: a } : c
-                  );
-                });
-              }}
-              setType={(t) => {
-                setContents((prev) => {
-                  return prev.map((c) =>
-                    c.id === content.id ? { ...c, type: t } : c
-                  );
-                });
-              }}
-            />
-          );
-        })}
+    <ResourceForm />
+    // <div className="flex">
+    //   <form onSubmit={submit} action="" className="flex flex-col gap-4">
+    //     <div className="">
+    //       <label htmlFor="">Title</label>
+    //       <input
+    //         value={title}
+    //         onChange={(e) => setTitle(e.target.value)}
+    //         type="text"
+    //       />
+    //     </div>
+    //     {contents.map((content) => {
+    //       return (
+    //         <Content
+    //           key={content.id}
+    //           {...content}
+    //           setAttachment={(a) => {
+    //             setContents((prev) => {
+    //               return prev.map((c) =>
+    //                 c.id === content.id ? { ...c, attachment: a } : c
+    //               );
+    //             });
+    //           }}
+    //           setType={(t) => {
+    //             setContents((prev) => {
+    //               return prev.map((c) =>
+    //                 c.id === content.id ? { ...c, type: t } : c
+    //               );
+    //             });
+    //           }}
+    //         />
+    //       );
+    //     })}
 
-        <Button
-          onClick={() => {
-            setContents((prev) => [
-              ...prev,
-              {
-                id: new Date().getTime(),
-                type: "text",
-                attachment: "",
-              },
-            ]);
-          }}
-          type="button"
-        >
-          Add Content
-        </Button>
+    //     <Button
+    //       onClick={() => {
+    //         setContents((prev) => [
+    //           ...prev,
+    //           {
+    //             id: new Date().getTime(),
+    //             type: "text",
+    //             attachment: "",
+    //           },
+    //         ]);
+    //       }}
+    //       type="button"
+    //     >
+    //       Add Content
+    //     </Button>
 
-        <Button type="submit">Create Resource</Button>
-      </form>
-    </div>
+    //     <Button type="submit">Create Resource</Button>
+    //   </form>
+    // </div>
+
   );
 }
 
