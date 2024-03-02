@@ -17,6 +17,7 @@ import { z } from "zod"
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const contentSchema = z.object({
   type: z.string(),
@@ -31,24 +32,23 @@ const resourceSchema = z.object({
 });
 
 export const ResourceForm = () => {
-  // const [title, setTitle] = useState("");
-  // const [contents, setContents] = useState([]);
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(resourceSchema),
     defaultValues: {
       title: "",
-      content: [],
+      content: [{type: "", attachment: ""}],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { append, remove } = useFieldArray({
     control: form.control,
     name: "content"
   })
 
-  const onSubmit = (e) => {
+  const onSubmit = (values) => {
+    console.log(values)
     // e.preventDefault();
 
     // uploadImages(contents).then((urls) => {
@@ -80,25 +80,71 @@ export const ResourceForm = () => {
     //   console.log(urls);
     };
 
+  console.log(form.getValues())
+
   return (
     <Form {...form}>
+
       <form autoComplete="off" onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-2">
         <FormField
-          className=""
-          control={form.control}
-          name={"title"}
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>{"Title"}</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="Resource Title here" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-        <Button variant="outline">Add Content Section</Button>
+        className=""
+        control={form.control}
+        name={"title"}
+          render={({ field }) => (
+            <FormItem className="flex-1">
+              <FormLabel>{"Title"}</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="Resource Title here" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {form.getValues().content.map(
+          (obj, i) =>
+            <>
+            <FormField
+            className=""
+            control={form.control}
+            name={`content[${i}].type`}
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>{"Type"}</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={{...field.value}}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a file type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="text">Text</SelectItem>
+                      <SelectItem value="image">Image</SelectItem>
+                      <SelectItem value="video">Video</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+            className=""
+            control={form.control}
+            name={`content[${i}].attachment`}
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>{"Attachment"}</FormLabel>
+                  <FormControl>
+                    {obj.type === "text" ?
+                    <Input type="text" placeholder="Content Here" {...field} />:
+                    <Input type="file" {...field} />}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+              />
+            </>
+        )}
+        <Button variant="outline" onClick={() => {append({type: "", attachment: ""})}}>Add Content Section</Button>
         <Button type="submit" className="">Add Post</Button>
       </form>
     </Form>
