@@ -1,4 +1,4 @@
-// File: /home/abbas/repos/nascon/client/app/page.jsx
+// File: /home/zain-ali/Desktop/nascon/nascon/client/app/page.jsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

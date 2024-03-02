@@ -1,14 +1,5 @@
 {
-  "node": {
-    "2baa1fe9be36afeda23912785f93c6222b71576f": {
-      "workers": {
-        "app/resources/new/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fhome%2Fabbas%2Frepos%2Fnascon%2Fclient%2Flib%2Factions.js%22%2C%5B%22revalidate%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/resources/new/page": "action-browser"
-      }
-    }
-  },
+  "node": {},
   "edge": {},
-  "encryptionKey": "tIhv+FyEMTxX0w3sN2raxY4GdFfugt2L4kOjbiQ3bdM="
+  "encryptionKey": "n8QQmkkfLcnKm446+dt2lMO1u5T3X8z3z8Ba+Shsxao="
 }

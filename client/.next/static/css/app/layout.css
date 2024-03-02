@@ -590,9 +590,6 @@ video {
 .pointer-events-none {
   pointer-events: none;
 }
-.fixed {
-  position: fixed;
-}
 .absolute {
   position: absolute;
 }
@@ -689,8 +686,8 @@ video {
 .h-screen {
   height: 100vh;
 }
-.min-h-screen {
-  min-height: 100vh;
+.h-\[90vh\] {
+  height: 90vh;
 }
 .w-10 {
   width: 2.5rem;
@@ -722,6 +719,9 @@ video {
 .w-9 {
   width: 2.25rem;
 }
+.w-96 {
+  width: 24rem;
+}
 .w-\[1\.2rem\] {
   width: 1.2rem;
 }
@@ -730,9 +730,6 @@ video {
 }
 .w-full {
   width: 100%;
-}
-.w-96 {
-  width: 24rem;
 }
 .min-w-\[8rem\] {
   min-width: 8rem;
@@ -745,6 +742,9 @@ video {
 }
 .max-w-sm {
   max-width: 24rem;
+}
+.max-w-\[400px\] {
+  max-width: 400px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -802,14 +802,14 @@ video {
 .gap-2 {
   gap: 0.5rem;
 }
+.gap-4 {
+  gap: 1rem;
+}
 .gap-6 {
   gap: 1.5rem;
 }
 .gap-8 {
   gap: 2rem;
-}
-.gap-4 {
-  gap: 1rem;
 }
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -856,6 +856,9 @@ video {
 }
 .rounded-xl {
   border-radius: 0.75rem;
+}
+.rounded-lg {
+  border-radius: var(--radius);
 }
 .border {
   border-width: 1px;
@@ -907,6 +910,9 @@ video {
 .bg-transparent {
   background-color: transparent;
 }
+.bg-black\/20 {
+  background-color: rgb(0 0 0 / 0.2);
+}
 .fill-current {
   fill: currentColor;
 }
@@ -954,6 +960,10 @@ video {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.px-\[3\%\] {
+  padding-left: 3%;
+  padding-right: 3%;
+}
 .pl-8 {
   padding-left: 2rem;
 }
@@ -989,6 +999,10 @@ video {
   font-size: 0.75rem;
   line-height: 1rem;
 }
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
 .font-bold {
   font-weight: 700;
 }
@@ -1007,8 +1021,14 @@ video {
 .lowercase {
   text-transform: lowercase;
 }
+.capitalize {
+  text-transform: capitalize;
+}
 .leading-none {
   line-height: 1;
+}
+.\!leading-\[4\.5rem\] {
+  line-height: 4.5rem !important;
 }
 .tracking-tight {
   letter-spacing: -0.025em;
@@ -1050,6 +1070,10 @@ video {
 .text-secondary-foreground {
   color: hsl(var(--secondary-foreground));
 }
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
 .underline {
   text-decoration-line: underline;
 }
@@ -1086,11 +1110,13 @@ video {
 .outline {
   outline-style: solid;
 }
-.filter {
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
 .backdrop-blur {
   --tw-backdrop-blur: blur(8px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+.backdrop-blur-sm {
+  --tw-backdrop-blur: blur(4px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
           backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
@@ -1327,12 +1353,45 @@ video {
   .sm\:inline-block {
     display: inline-block;
   }
+
+  .sm\:justify-start {
+    justify-content: flex-start;
+  }
+}
+ 
+@media (min-width: 768px) {
+
+  .md\:px-\[6\%\] {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .md\:text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+  }
 }
  
 @media (min-width: 1024px) {
 
   .lg\:block {
     display: block;
+  }
+}
+ 
+@media (min-width: 1536px) {
+
+  .\32xl\:max-w-\[800px\] {
+    max-width: 800px;
+  }
+
+  .\32xl\:text-8xl {
+    font-size: 6rem;
+    line-height: 1;
+  }
+
+  .\32xl\:\!leading-\[7rem\] {
+    line-height: 7rem !important;
   }
 }
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
