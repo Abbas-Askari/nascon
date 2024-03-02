@@ -11,16 +11,13 @@ export const loginAsync = createAsyncThunk(
       // const state = getState().auth;
       // console.log(state);
       // console.log("dispatched!");
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND + "/" + "auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: { ...data } }),
-        }
-      );
+      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND + "auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user: { ...data } }),
+      });
       const json = await res.json();
       if (json.errors) {
         console.log(json);
